@@ -1,0 +1,39 @@
+[package]
+name = "neopixel"
+version = "0.1.0"
+authors = ["leopoldbriand"]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+test = false
+bench = false
+
+[[bin]]
+name = "neopixel"
+path = "./src/bin/main.rs"
+test = false
+bench = false
+
+[dependencies]
+panic-halt = "1.0.0"
+smart-leds = "0.4.0"
+
+[dependencies.arduino-hal]
+git = "https://github.com/rahix/avr-hal"
+branch = "main"
+features = ["arduino-nano"]
+
+# Configure the build for minimal size - AVRs have very little program memory
+[profile.dev]
+panic = "abort"
+lto = true
+opt-level = "s"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+debug = true
+lto = true
+opt-level = "s"
